@@ -229,20 +229,20 @@ preinstall_l2tp(){
     #echo
     #echo "请输入ip范围:"
     #read -p "(默认范围: 192.168.18):" iprange
-    [ -z ${iprange} ] && iprange="192.168.18"
+    [ -z ${iprange} ] && iprange="192.168.0"
 
     #echo "请输入预共享密钥:"
     #read -p "(默认预共享密钥: Bill_888):" mypsk
-    [ -z ${mypsk} ] && mypsk="bashen"
+    [ -z ${mypsk} ] && mypsk="zcy7.cn"
 
     #echo "请输入用户名:"
     #read -p "(默认用户名: Bill_888):" username
-    [ -z ${username} ] && username="bashen"
+    [ -z ${username} ] && username="zhaoge"
 
     #password=`rand`
     #echo "请输入 ${username}'s 密码:"
     #read -p "(默认密码: ${password}):" tmppassword
-    [ ! -z ${tmppassword} ] && password="bashen"
+    [ ! -z ${tmppassword} ] && password="131662"
 
     echo
     echo "ServerIP:${IP}"
@@ -377,13 +377,13 @@ EOF
     cat > /etc/xl2tpd/xl2tpd.conf<<EOF
 [global]
 port = 1701
-listen-addr   = ${iprange}.
+listen-addr   = 192.168.0.66
 ipsec saref = yes
 auth file = /etc/ppp/chap-secrets
 
 [lns default]
 ip range = ${iprange}.2-${iprange}.254
-local ip = ${iprange}.1
+local ip = 192.168.0.66
 require chap = yes
 refuse pap = yes
 require authentication = yes
