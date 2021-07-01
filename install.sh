@@ -4,13 +4,8 @@ export PATH
 #=======================================================================#
 #   System Supported:  CentOS 6+ / Debian 7+ / Ubuntu 12+               #
 #   Description: L2TP VPN Auto Installer                                #
-#             Linux 一键安装L2TP脚本 (汉化定制版)                         #
-#                                                                       #
-#                   Telegram：@Sunny_8888                               #
-#                     我的网站：js8c.xyz                                 #
-#                        微信:lvduroot                                  #
-#                                                                       #
-#                                                                       #
+#   Author: Teddysun <i@teddysun.com>                                   #
+#   Intro:  https://teddysun.com/448.html                               #
 #=======================================================================#
 cur_dir=`pwd`
 
@@ -226,23 +221,23 @@ preinstall_l2tp(){
             exit 0
         fi
     fi
-    #echo
-    #echo "请输入ip范围:"
-    #read -p "(默认范围: 192.168.18):" iprange
+    echo
+    echo "Please enter IP-Range:"
+    read -p "(Default Range: 192.168.0):" iprange
     [ -z ${iprange} ] && iprange="192.168.0"
 
-    #echo "请输入预共享密钥:"
-    #read -p "(默认预共享密钥: Bill_888):" mypsk
+    echo "Please enter PSK:"
+    read -p "(Default PSK: zcy7.cn):" mypsk
     [ -z ${mypsk} ] && mypsk="zcy7.cn"
 
-    #echo "请输入用户名:"
-    #read -p "(默认用户名: Bill_888):" username
+    echo "Please enter Username:"
+    read -p "(Default Username: zhaoge):" username
     [ -z ${username} ] && username="zhaoge"
 
-    #password=`rand`
-    #echo "请输入 ${username}'s 密码:"
-    #read -p "(默认密码: ${password}):" tmppassword
-    [ ! -z ${tmppassword} ] && password="131662"
+    password=`rand`
+    echo "Please enter ${username}'s password:"
+    read -p "(Default Password: ${password}):" tmppassword
+    [ ! -z ${tmppassword} ] && password=${tmppassword}
 
     echo
     echo "ServerIP:${IP}"
@@ -251,7 +246,7 @@ preinstall_l2tp(){
     echo "PSK:${mypsk}"
     echo
     echo "Press any key to start... or press Ctrl + C to cancel."
-    #char=`get_char`
+    char=`get_char`
 
 }
 
@@ -377,13 +372,13 @@ EOF
     cat > /etc/xl2tpd/xl2tpd.conf<<EOF
 [global]
 port = 1701
-listen-addr   = 192.168.0.66
+listen-addr = 192.168.0.205
 ipsec saref = yes
 auth file = /etc/ppp/chap-secrets
 
 [lns default]
 ip range = ${iprange}.2-${iprange}.254
-local ip = 192.168.0.66
+local ip = 192.168.0.205
 require chap = yes
 refuse pap = yes
 require authentication = yes
@@ -398,8 +393,8 @@ EOF
 ipcp-accept-local
 ipcp-accept-remote
 require-mschap-v2
-ms-dns 202.181.202.140
-ms-dns 175.24.140.110
+ms-dns 8.8.8.8
+ms-dns 8.8.4.4
 noccp
 auth
 hide-password
@@ -668,28 +663,24 @@ finally(){
     echo "###############################################################"
     echo "# L2TP VPN Auto Installer                                     #"
     echo "# System Supported: CentOS 6+ / Debian 7+ / Ubuntu 12+        #"
-    echo "#          Linux 一键安装L2TP脚本 (汉化定制版)                  #"
-    echo "#                                                             #"
-    echo "#                   Telegram：@Sunny_8888                     #"
-    echo "#                     我的网站：js8c.xyz                       #"
-    echo "#                        微信:lvduroot                        #"
+    echo "# Intro: https://teddysun.com/448.html                        #"
+    echo "# Author: Teddysun <i@teddysun.com>                           #"
     echo "###############################################################"
-    echo "###############################################################"
-    echo "如果上面没有[FAILED]，您可以连接到您的L2TP "
-    echo "L2TP使用用户名/密码的VPN服务器如下:"
+    echo "If there is no [FAILED] above, you can connect to your L2TP "
+    echo "VPN Server with the default Username/Password is below:"
     echo
-    echo "服务器 IP  : ${IP}"
-    echo "预共享密钥 : ${mypsk}"
-    echo "用户名     : ${username}"
-    echo "密码       : ${password}"
+    echo "Server IP: ${IP}"
+    echo "PSK      : ${mypsk}"
+    echo "Username : ${username}"
+    echo "Password : ${password}"
     echo
-    echo "如果您想修改用户设置，请使用以下命令:"
-    echo "l2tp -a (添加用户)"
-    echo "l2tp -d (删除用户)"
-    echo "l2tp -l (列出所有用户)"
-    echo "l2tp -m (修改用户密码)"
+    echo "If you want to modify user settings, please use below command(s):"
+    echo "l2tp -a (Add a user)"
+    echo "l2tp -d (Delete a user)"
+    echo "l2tp -l (List all users)"
+    echo "l2tp -m (Modify a user password)"
     echo
-    echo "Welcome to visit our website: https://merciless.cn/"
+    echo "Welcome to visit our website: https://teddysun.com/448.html"
     echo "Enjoy it!"
     echo
 }
@@ -701,11 +692,8 @@ l2tp(){
     echo "###############################################################"
     echo "# L2TP VPN Auto Installer                                     #"
     echo "# System Supported: CentOS 6+ / Debian 7+ / Ubuntu 12+        #"
-    echo "#          Linux 一键安装L2TP脚本 (定制版)                    #"
-    echo "#                                                             #"
-    echo "#                   Telegram：@Sunny_8888                     #"
-    echo "#                     我的网站：js8c.xyz                      #"
-    echo "#                        微信:lvduroot                        #"
+    echo "# Intro: https://teddysun.com/448.html                        #"
+    echo "# Author: Teddysun <i@teddysun.com>                           #"
     echo "###############################################################"
     echo
     rootness
@@ -733,7 +721,7 @@ list_users(){
 add_user(){
     while :
     do
-        read -p "请输入您的用户名:" user
+        read -p "Please input your Username:" user
         if [ -z ${user} ]; then
             echo "Username can not be empty"
         else
@@ -746,8 +734,8 @@ add_user(){
         fi
     done
     pass=`rand`
-    echo "请输入 ${user}'s 的密码:"
-    read -p "(默认密码: ${pass}):" tmppass
+    echo "Please input ${user}'s password:"
+    read -p "(Default Password: ${pass}):" tmppass
     [ ! -z ${tmppass} ] && pass=${tmppass}
     echo "${user}    l2tpd    ${pass}       *" >> /etc/ppp/chap-secrets
     echo "Username (${user}) add completed."
@@ -756,15 +744,15 @@ add_user(){
 del_user(){
     while :
     do
-        read -p "请输入您要删除的用户名:" user
+        read -p "Please input Username you want to delete it:" user
         if [ -z ${user} ]; then
-            echo "用户名不能为空"
+            echo "Username can not be empty"
         else
             grep -w "${user}" /etc/ppp/chap-secrets >/dev/null 2>&1
             if [ $? -eq 0 ];then
                 break
             else
-                echo "您输入的 (${user}) 并不存在。请重新输入您的用户名."
+                echo "Username (${user}) is not exists. Please re-enter your username."
             fi
         fi
     done
@@ -775,25 +763,25 @@ del_user(){
 mod_user(){
     while :
     do
-        read -p "请输入您要更改密码的用户名:" user
+        read -p "Please input Username you want to change password:" user
         if [ -z ${user} ]; then
-            echo "用户名不能为空"
+            echo "Username can not be empty"
         else
             grep -w "${user}" /etc/ppp/chap-secrets >/dev/null 2>&1
             if [ $? -eq 0 ];then
                 break
             else
-                echo "您输入的e (${user}) 并不存在。请重新输入您的用户名."
+                echo "Username (${user}) is not exists. Please re-enter your username."
             fi
         fi
     done
     pass=`rand`
-    echo "请输入 ${user}'s 的新密码:"
-    read -p "(默认密码: ${pass}):" tmppass
+    echo "Please input ${user}'s new password:"
+    read -p "(Default Password: ${pass}):" tmppass
     [ ! -z ${tmppass} ] && pass=${tmppass}
     sed -i "/^\<${user}\>/d" /etc/ppp/chap-secrets
     echo "${user}    l2tpd    ${pass}       *" >> /etc/ppp/chap-secrets
-    echo "您账户 ${user}'s 密码已更改."
+    echo "Username ${user}'s password has been changed."
 }
 
 # Main process
