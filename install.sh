@@ -227,7 +227,7 @@ preinstall_l2tp(){
     [ -z ${iprange} ] && iprange="192.168.0"
 
     echo "Please enter PSK:"
-    read -p "(Default PSK: zcy7.cn):" mypsk
+    read -p "(Default PSK: zcy7.cgn):" mypsk
     [ -z ${mypsk} ] && mypsk="zcy7.cn"
 
     echo "Please enter Username:"
