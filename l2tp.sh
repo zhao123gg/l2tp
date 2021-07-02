@@ -227,7 +227,7 @@ preinstall_l2tp(){
     [ -z ${iprange} ] && iprange="192.168.0"
 
     echo "Please enter PSK:"
-    read -p "(Default PSK: zcy7.cc):" mypsk
+    read -p "(Default PSK: zcy7.cn):" mypsk
     [ -z ${mypsk} ] && mypsk="zcy7.cn"
 
     echo "Please enter Username:"
@@ -372,13 +372,13 @@ EOF
     cat > /etc/xl2tpd/xl2tpd.conf<<EOF
 [global]
 port = 1701
-listen-addr = 192.168.0.52
+listen-addr = 192.168.0.162
 ipsec saref = yes
 auth file = /etc/ppp/chap-secrets
 
 [lns default]
 ip range = ${iprange}.2-${iprange}.254
-local ip = 192.168.0.52
+local ip = 192.168.0.162
 require chap = yes
 refuse pap = yes
 require authentication = yes
@@ -393,8 +393,8 @@ EOF
 ipcp-accept-local
 ipcp-accept-remote
 require-mschap-v2
-ms-dns 8.8.8.8
-ms-dns 8.8.4.4
+ms-dns 202.67.240.222
+ms-dns 202.14.67.4
 noccp
 auth
 hide-password
