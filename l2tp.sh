@@ -372,13 +372,13 @@ EOF
     cat > /etc/xl2tpd/xl2tpd.conf<<EOF
 [global]
 port = 1701
-listen-addr = 192.168.0.202
+listen-addr = 192.168.0.216
 ipsec saref = yes
 auth file = /etc/ppp/chap-secrets
 
 [lns default]
 ip range = ${iprange}.2-${iprange}.254
-local ip = 192.168.0.202
+local ip = 192.168.0.216
 require chap = yes
 refuse pap = yes
 require authentication = yes
