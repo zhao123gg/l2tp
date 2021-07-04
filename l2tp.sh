@@ -335,15 +335,21 @@ config_install(){
 version 2.0
 
 config setup
+    nat_traversal=yes
+    oe=off
     protostack=netkey
     nhelpers=0
     uniqueids=no
     interfaces=%defaultroute
-    virtual_private=%v4:10.0.0.0/8,%v4:192.168.0.0/16,%v4:172.16.0.0/12,%v4:!${iprange}.0/24
+    virtual_private=%v4:10.0.0.0/8,%v4:192.168.0.0/16,%v4:172.16.0.0/12,%v4:!192.168.0.0/24
 
 conn l2tp-psk
     rightsubnet=vhost:%priv
     also=l2tp-psk-nonat
+
+conn L2TP-PSK-NAT
+    rightsubnet=vhost:%priv
+    also=L2TP-PSK-noNAT
 
 conn l2tp-psk-nonat
     authby=secret
@@ -354,15 +360,18 @@ conn l2tp-psk-nonat
     ikelifetime=8h
     keylife=1h
     type=transport
-    left=%defaultroute
-    leftid=${IP}
+    left=47.242.205.100
+    leftid=47.242.205.100
+    leftnexthop=%defaultroute
     leftprotoport=17/1701
     right=%any
     rightprotoport=17/%any
-    dpddelay=40
-    dpdtimeout=130
+    dpddelay=30
+    dpdtimeout=120
     dpdaction=clear
     sha2-truncbug=yes
+    rightnexthop=%defaultroute
+    forceencaps=yes
 EOF
 
     cat > /etc/ipsec.secrets<<EOF
@@ -393,17 +402,22 @@ EOF
 ipcp-accept-local
 ipcp-accept-remote
 require-mschap-v2
-ms-dns 202.14.67.4
 ms-dns 202.67.240.222
+ms-dns 202.14.67.4
 noccp
 auth
 hide-password
+modem
 idle 1800
 mtu 1410
 mru 1410
 nodefaultroute
 debug
+name l2tpd
 proxyarp
+lcp-echo-interval 30
+lcp-echo-failure 4
+mtu 1400
 connect-delay 5000
 refuse-pap
 refuse-chap
