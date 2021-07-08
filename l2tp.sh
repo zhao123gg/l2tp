@@ -360,8 +360,8 @@ conn l2tp-psk-nonat
     ikelifetime=8h
     keylife=1h
     type=transport
-    left=47.243.156.213
-    leftid=47.243.156.213
+    left=47.243.195.221
+    leftid=47.243.195.221
     leftnexthop=%defaultroute
     leftprotoport=17/1701
     right=%any
@@ -381,13 +381,13 @@ EOF
     cat > /etc/xl2tpd/xl2tpd.conf<<EOF
 [global]
 port = 1701
-listen-addr = 192.168.0.56
+listen-addr = 192.168.0.65
 ipsec saref = yes
 auth file = /etc/ppp/chap-secrets
 
 [lns default]
 ip range = ${iprange}.2-${iprange}.254
-local ip = 192.168.0.56
+local ip = 192.168.0.65
 require chap = yes
 refuse pap = yes
 require authentication = yes
