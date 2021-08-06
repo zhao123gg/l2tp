@@ -402,8 +402,8 @@ EOF
 ipcp-accept-local
 ipcp-accept-remote
 require-mschap-v2
-ms-dns 202.67.240.222
-ms-dns 202.14.67.4
+ms-dns 223.5.5.5
+ms-dns 223.6.6.6
 noccp
 auth
 hide-password
